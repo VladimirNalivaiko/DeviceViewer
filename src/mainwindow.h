@@ -32,6 +32,7 @@ class MainWindow : public QMainWindow
 {
     Q_OBJECT
 
+
 public:
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
@@ -41,6 +42,13 @@ private:
 
     QMultiMap<QString, DeviceInfo> DeviceTree;
     QList<QString> GUIDList;
+
+    DWORD SetupDiGetClassDevsFlags = DIGCF_PRESENT | DIGCF_ALLCLASSES;
+    HDEVINFO DeviceInfoSet;
+
+private:
+    void EnumerateDeviceTree();
+    void UpdateTreeView();
 };
 
 #endif // MAINWINDOW_H
