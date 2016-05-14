@@ -8,6 +8,7 @@
 
 #include <QDebug>
 #include <QMainWindow>
+#include <QFile>
 
 
 MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWindow)
@@ -17,6 +18,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     ui->treeWidget->setSortingEnabled(true);
 
     EnumerateDeviceTree();
+    UpdateTreeView();
 }
 
 void MainWindow::EnumerateDeviceTree()
@@ -34,7 +36,8 @@ void MainWindow::EnumerateDeviceTree()
     while(SetupDiEnumDeviceInfo(DeviceInfoSet, i, &DeviceInfoData)) {
         RequiredSize = 256;
 
-        if(CM_Get_DevNode_Registry_PropertyW(DeviceInfoData.DevInst, CM_DRP_CLASSGUID, NULL, GUID_w, &GUID_w_size, 0) == CR_SUCCESS && GUID_w_size != 0) {
+        if(CM_Get_DevNode_Registry_PropertyW(DeviceInfoData.DevInst, CM_DRP_CLASSGUID, NULL, GUID_w, &GUID_w_size, 0) ==
+                CR_SUCCESS && GUID_w_size != 0) {
             GUID_w_size = 128;
             QString GUID_s = QString::fromWCharArray(GUID_w, GUID_w_size/2 - 1);
             DeviceInfo temp;
@@ -47,6 +50,35 @@ void MainWindow::EnumerateDeviceTree()
             DeviceTree.insert(GUID_s, temp);
         }
         i++;
+    }
+}
+void MainWindow::UpdateTreeView()
+{
+    DWORD RequiredSize = 0;
+    wchar_t PropertyBufferW[256] = { 0 };
+    for(int i = 0; i < GUIDList.size(); i++) {
+        QList<DeviceInfo> dev_info_list = DeviceTree.values(GUIDList.at(i));
+        RequiredSize = 256;
+        QTreeWidgetItem *ClassSubTree = new QTreeWidgetItem(ui->treeWidget);
+
+        if(SetupDiGetClassDescriptionW(&(dev_info_list.at(0).DeviceInfoData.ClassGuid),
+                                       PropertyBufferW,  RequiredSize,  &RequiredSize)) {
+            ClassSubTree->setText(0, QString::fromWCharArray(PropertyBufferW, RequiredSize - 1));
+        }
+
+        for(int j = 0; j < dev_info_list.size(); j++) {
+            QTreeWidgetItem *ClassSubTreeChild = new QTreeWidgetItem();
+            QVariant data = QVariant::fromValue(dev_info_list.at(j));
+            ClassSubTreeChild->setData(0, Qt::UserRole, data);
+            ClassSubTreeChild->setText(0, dev_info_list.at(j).DeviceDescription);
+        }
+        for(int j = 0; j < dev_info_list.size(); j++) {
+            QTreeWidgetItem *ClassSubTreeChild = new QTreeWidgetItem();
+            QVariant data = QVariant::fromValue(dev_info_list.at(j));
+            ClassSubTreeChild->setData(0, Qt::UserRole, data);
+            ClassSubTreeChild->setText(0, dev_info_list.at(j).DeviceDescription);
+            ClassSubTree->addChild(ClassSubTreeChild);
+        }
     }
 }
 MainWindow::~MainWindow()
