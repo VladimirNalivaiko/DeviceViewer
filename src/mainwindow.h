@@ -32,10 +32,13 @@ class MainWindow : public QMainWindow
 {
     Q_OBJECT
 
-
 public:
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
+
+
+public slots:
+    void on_treeWidget_itemDoubleClicked(QTreeWidgetItem *item, int column);
 
 private:
     Ui::MainWindow *ui;
