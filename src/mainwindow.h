@@ -3,6 +3,7 @@
 
 #include <QMainWindow>
 #include <QTreeWidgetItem>
+#include <QToolButton>
 
 #include <windows.h>
 #include <setupapi.h>
@@ -38,10 +39,12 @@ public:
 
 
 public slots:
+    void on_refreshToolButtonClicked();
     void on_treeWidget_itemDoubleClicked(QTreeWidgetItem *item, int column);
 
 private:
     Ui::MainWindow *ui;
+    QToolButton *refreshToolButton;
 
     QMultiMap<QString, DeviceInfo> DeviceTree;
     QList<QString> GUIDList;

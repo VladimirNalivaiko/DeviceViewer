@@ -10,7 +10,6 @@
 
 #include <QLabel>
 #include <QMainWindow>
-#include <QFile>
 
 
 MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent),
@@ -19,6 +18,13 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent),
     ui->setupUi(this);
     ui->treeWidget->setColumnCount(1);
     ui->treeWidget->setSortingEnabled(true);
+
+    refreshToolButton = new QToolButton();
+    {
+        refreshToolButton->setIcon(QIcon(":/Images/Images/circular-arrow.png"));
+        connect(refreshToolButton, SIGNAL(clicked(bool)), this, SLOT(on_refreshToolButtonClicked()));
+        ui->toolBar->addWidget(refreshToolButton);
+    }
 
     EnumerateDeviceTree();
     UpdateTreeView();
@@ -322,6 +328,15 @@ void MainWindow::on_treeWidget_itemDoubleClicked(QTreeWidgetItem *item, int colu
         w->layout()->addWidget(DevDescLabel);
     }
     w->show();
+}
+void MainWindow::on_refreshToolButtonClicked()
+{
+    SetupDiDestroyDeviceInfoList(DeviceInfoSet);
+    ui->treeWidget->clear();
+    DeviceTree.clear();
+    GUIDList.clear();
+    EnumerateDeviceTree();
+    UpdateTreeView();
 }
 MainWindow::~MainWindow()
 {

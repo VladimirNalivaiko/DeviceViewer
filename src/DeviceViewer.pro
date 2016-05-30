@@ -20,3 +20,6 @@ HEADERS  += mainwindow.h
 FORMS    += mainwindow.ui
 
 LIBS     += -lsetupapi
+
+RESOURCES += \
+    images.qrc
