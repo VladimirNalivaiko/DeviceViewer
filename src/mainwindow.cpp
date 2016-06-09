@@ -192,6 +192,11 @@ void MainWindow::UpdateTreeView()
             ClassSubTreeChild->setText(0, dev_info_list.at(j).DeviceDescription);
             ClassSubTree->addChild(ClassSubTreeChild);
         }
+        if(QFile::exists(QString(":/classes/Images/classes/" + dev_info_list.first().DeviceClass + ".svg"))) {
+            ClassSubTree->setIcon(0, QIcon(QString(":/classes/Images/classes/" + dev_info_list.first().DeviceClass + ".svg")));
+        } else {
+            ClassSubTree->setIcon(0, QIcon(QString(":/classes/Images/classes/NO_CLASS.svg")));
+        }
     }
 }
 

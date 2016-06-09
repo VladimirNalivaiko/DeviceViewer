@@ -2,4 +2,32 @@
     <qresource prefix="/Images">
         <file>Images/circular-arrow.png</file>
     </qresource>
+    <qresource prefix="/classes">
+        <file>Images/classes/AudioEndpoint.svg</file>
+        <file>Images/classes/Battery.svg</file>
+        <file>Images/classes/Bluetooth.svg</file>
+        <file>Images/classes/CDROM.svg</file>
+        <file>Images/classes/Computer.svg</file>
+        <file>Images/classes/DiskDrive.svg</file>
+        <file>Images/classes/Display.svg</file>
+        <file>Images/classes/HIDClass.svg</file>
+        <file>Images/classes/Image.svg</file>
+        <file>Images/classes/Keyboard.svg</file>
+        <file>Images/classes/MEDIA.svg</file>
+        <file>Images/classes/Monitor.svg</file>
+        <file>Images/classes/Mouse.svg</file>
+        <file>Images/classes/MTD.svg</file>
+        <file>Images/classes/Net.svg</file>
+        <file>Images/classes/NO_CLASS.svg</file>
+        <file>Images/classes/PrintQueue.svg</file>
+        <file>Images/classes/SCSIAdapter.svg</file>
+        <file>Images/classes/Sensor.svg</file>
+        <file>Images/classes/SoftwareDevice.svg</file>
+        <file>Images/classes/System.svg</file>
+        <file>Images/classes/USB.svg</file>
+        <file>Images/classes/USBDevice.svg</file>
+        <file>Images/classes/Volume.svg</file>
+        <file>Images/classes/VolumeSnapshot.svg</file>
+        <file>Images/classes/WPD.svg</file>
+    </qresource>
 </RCC>
