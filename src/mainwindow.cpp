@@ -30,7 +30,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent),
 
     refreshToolButton = new QToolButton();
     {
-        refreshToolButton->setIcon(QIcon(":/Images/Images/circular-arrow.png"));
+        refreshToolButton->setIcon(QIcon(":/Images/Images/re_enum.svg"));
         connect(refreshToolButton, SIGNAL(clicked(bool)), this, SLOT(on_refreshToolButtonClicked()));
         ui->toolBar->addWidget(refreshToolButton);
     }
@@ -39,7 +39,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent),
     UpdateTreeView();
 
     HMODULE hLib;
-    hLib = LoadLibraryW((LPCWSTR)L"./AutoUpdateDLL.dll");
+    hLib = LoadLibraryW((LPCWSTR)L"./autoupdatedll.dll");
     if(hLib != NULL) {
         bool (*Init_DeviceInterface_Notification)(wchar_t *);
         (FARPROC &)(Init_DeviceInterface_Notification) = GetProcAddress(hLib, "Init_DeviceInterface_Notification");

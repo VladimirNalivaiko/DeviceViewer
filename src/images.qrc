@@ -1,6 +1,6 @@
 <RCC>
     <qresource prefix="/Images">
-        <file>Images/circular-arrow.png</file>
+        <file>Images/re_enum.svg</file>
     </qresource>
     <qresource prefix="/classes">
         <file>Images/classes/AudioEndpoint.svg</file>
