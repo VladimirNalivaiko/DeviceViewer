@@ -27,6 +27,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent),
     ui->setupUi(this);
     ui->treeWidget->setColumnCount(1);
     ui->treeWidget->setSortingEnabled(true);
+    this->setWindowIcon(QIcon(":/Images/Images/laptop.svg"));
 
     refreshToolButton = new QToolButton();
     {

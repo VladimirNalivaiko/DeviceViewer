@@ -2,6 +2,7 @@
     <qresource prefix="/Images">
         <file>Images/re_enum.svg</file>
         <file>Images/isGood.svg</file>
+        <file>Images/laptop.svg</file>
     </qresource>
     <qresource prefix="/classes">
         <file>Images/classes/AudioEndpoint.svg</file>
