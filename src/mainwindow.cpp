@@ -54,7 +54,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent),
         }
 
     }else{
-        qDebug() << "Can't load AutoUpdateDLL.dll. Device tree autoupdate disabled";
+        qDebug() << "Can't load autoupdatedll.dll. Device tree autoupdate disabled";
     }
 }
 
@@ -190,6 +190,7 @@ void MainWindow::UpdateTreeView()
             QVariant data = QVariant::fromValue(dev_info_list.at(j));
             ClassSubTreeChild->setData(0, Qt::UserRole, data);
             ClassSubTreeChild->setText(0, dev_info_list.at(j).DeviceDescription);
+            ClassSubTreeChild->setIcon(0, QIcon(":/Images/Images/isGood.svg"));
             ClassSubTree->addChild(ClassSubTreeChild);
         }
         if(QFile::exists(QString(":/classes/Images/classes/" + dev_info_list.first().DeviceClass + ".svg"))) {
