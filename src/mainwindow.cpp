@@ -357,6 +357,7 @@ void MainWindow::on_treeWidget_itemDoubleClicked(QTreeWidgetItem *item, int colu
     {
         w->setWindowFlags(Qt::WindowCloseButtonHint);
         w->setWindowTitle(dev_info.DeviceDescription);
+        w->setPalette(((QMainWindow*)(ui->centralWidget->parent()))->palette());
         QVBoxLayout *layout = new QVBoxLayout;
         layout->addWidget(DevDescLabel);
         w->setLayout(layout);
