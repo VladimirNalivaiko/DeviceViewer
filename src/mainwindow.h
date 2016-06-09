@@ -33,6 +33,9 @@ class MainWindow : public QMainWindow
 {
     Q_OBJECT
 
+signals:
+    void re_enum_need();
+
 public:
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();

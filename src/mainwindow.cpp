@@ -7,10 +7,19 @@
 #include <Setupapi.h>
 
 #include <QDebug>
-
+#include <QToolButton>
 #include <QLabel>
-#include <QMainWindow>
+#include <QFile>
 
+class MainWindowCallback
+{
+public:
+    static MainWindow* ptr;
+    static void my_callback() {
+        ptr->re_enum_need();
+    }
+};
+MainWindow* MainWindowCallback::ptr = NULL;
 
 MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent),
     ui(new Ui::MainWindow)
@@ -28,6 +37,25 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent),
 
     EnumerateDeviceTree();
     UpdateTreeView();
+
+    HMODULE hLib;
+    hLib = LoadLibraryW((LPCWSTR)L"./AutoUpdateDLL.dll");
+    if(hLib != NULL) {
+        bool (*Init_DeviceInterface_Notification)(wchar_t *);
+        (FARPROC &)(Init_DeviceInterface_Notification) = GetProcAddress(hLib, "Init_DeviceInterface_Notification");
+        if(Init_DeviceInterface_Notification((wchar_t*)L"C:/Windows/System32/downlevel/API-MS-Win-devices-config-L1-1-1.dll")){
+            bool (*Register_DeviceInterface_Notification)(void(*)(void));
+            (FARPROC &)(Register_DeviceInterface_Notification) = GetProcAddress(hLib, "Register_DeviceInterface_Notification");
+            MainWindowCallback::ptr = this;
+            connect(this, SIGNAL(re_enum_need()), this, SLOT(on_refreshToolButtonClicked()));
+            Register_DeviceInterface_Notification((void(*)())&MainWindowCallback::my_callback);
+        } else {
+            qDebug() << "Can't load API-MS-Win-devices-config-L1-1-1.dll. Device tree autoupdate disabled";
+        }
+
+    }else{
+        qDebug() << "Can't load AutoUpdateDLL.dll. Device tree autoupdate disabled";
+    }
 }
 
 void MainWindow::EnumerateDeviceTree()
