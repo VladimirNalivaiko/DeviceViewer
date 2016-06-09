@@ -32,7 +32,8 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent),
     refreshToolButton = new QToolButton();
     {
         refreshToolButton->setIcon(QIcon(":/Images/Images/re_enum.svg"));
-        connect(refreshToolButton, SIGNAL(clicked(bool)), this, SLOT(on_refreshToolButtonClicked()));
+        connect(refreshToolButton, SIGNAL(clicked(bool)), this,
+                SLOT(on_refreshToolButtonClicked()));
         ui->toolBar->addWidget(refreshToolButton);
     }
 
@@ -43,12 +44,16 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent),
     hLib = LoadLibraryW((LPCWSTR)L"./autoupdatedll.dll");
     if(hLib != NULL) {
         bool (*Init_DeviceInterface_Notification)(wchar_t *);
-        (FARPROC &)(Init_DeviceInterface_Notification) = GetProcAddress(hLib, "Init_DeviceInterface_Notification");
-        if(Init_DeviceInterface_Notification((wchar_t*)L"C:/Windows/System32/downlevel/API-MS-Win-devices-config-L1-1-1.dll")){
+        (FARPROC &)(Init_DeviceInterface_Notification) =
+                GetProcAddress(hLib, "Init_DeviceInterface_Notification");
+        if(Init_DeviceInterface_Notification((wchar_t*)
+                    L"C:/Windows/System32/downlevel/API-MS-Win-devices-config-L1-1-1.dll")){
             bool (*Register_DeviceInterface_Notification)(void(*)(void));
-            (FARPROC &)(Register_DeviceInterface_Notification) = GetProcAddress(hLib, "Register_DeviceInterface_Notification");
+            (FARPROC &)(Register_DeviceInterface_Notification) =
+                    GetProcAddress(hLib, "Register_DeviceInterface_Notification");
             MainWindowCallback::ptr = this;
-            connect(this, SIGNAL(re_enum_need()), this, SLOT(on_refreshToolButtonClicked()));
+            connect(this, SIGNAL(re_enum_need()), this,
+                    SLOT(on_refreshToolButtonClicked()));
             Register_DeviceInterface_Notification((void(*)())&MainWindowCallback::my_callback);
         } else {
             qDebug() << "Can't load API-MS-Win-devices-config-L1-1-1.dll. Device tree autoupdate disabled";
@@ -194,8 +199,11 @@ void MainWindow::UpdateTreeView()
             ClassSubTreeChild->setIcon(0, QIcon(":/Images/Images/isGood.svg"));
             ClassSubTree->addChild(ClassSubTreeChild);
         }
-        if(QFile::exists(QString(":/classes/Images/classes/" + dev_info_list.first().DeviceClass + ".svg"))) {
-            ClassSubTree->setIcon(0, QIcon(QString(":/classes/Images/classes/" + dev_info_list.first().DeviceClass + ".svg")));
+        if(QFile::exists(QString(":/classes/Images/classes/" +
+                                 dev_info_list.first().DeviceClass + ".svg"))) {
+            ClassSubTree->setIcon(0, QIcon(QString(":/classes/Images/classes/"
+                                                   + dev_info_list.first().DeviceClass
+                                                   + ".svg")));
         } else {
             ClassSubTree->setIcon(0, QIcon(QString(":/classes/Images/classes/NO_CLASS.svg")));
         }
